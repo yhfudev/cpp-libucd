@@ -55,7 +55,6 @@ public:
   virtual nsProbingState GetState(void);
 
   virtual float     GetConfidence(void) { return (float)0.0; }
-  virtual void      SetOpion() {};
 
   void SetModelProbers(nsCharSetProber *logicalPrb, nsCharSetProber *visualPrb) 
   { mLogicalProb = logicalPrb; mVisualProb = visualPrb; }
@@ -65,8 +64,8 @@ public:
 #endif
 
 protected:
-  static PRBool isFinal(char c);
-  static PRBool isNonFinal(char c);
+  static bool isFinal(char c);
+  static bool isNonFinal(char c);
 
   PRInt32 mFinalCharLogicalScore, mFinalCharVisualScore;
 

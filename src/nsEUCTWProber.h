@@ -44,15 +44,16 @@
 
 class nsEUCTWProber: public nsCharSetProber {
 public:
-  nsEUCTWProber(void){mCodingSM = new nsCodingStateMachine(&EUCTWSMModel);
-                      Reset();};
-  virtual ~nsEUCTWProber(void){delete mCodingSM;};
+  nsEUCTWProber(bool aIsPreferredLanguage)
+    :mIsPreferredLanguage(aIsPreferredLanguage)
+  {mCodingSM = new nsCodingStateMachine(&EUCTWSMModel);
+    Reset();}
+  virtual ~nsEUCTWProber(void){delete mCodingSM;}
   nsProbingState HandleData(const char* aBuf, PRUint32 aLen);
-  const char* GetCharSetName() {return "x-euc-tw";};
-  nsProbingState GetState(void) {return mState;};
+  const char* GetCharSetName() {return "x-euc-tw";}
+  nsProbingState GetState(void) {return mState;}
   void      Reset(void);
   float     GetConfidence(void);
-  void      SetOpion() {};
 
 protected:
   void      GetDistribution(PRUint32 aCharLen, const char* aStr);
@@ -63,6 +64,7 @@ protected:
   //EUCTWContextAnalysis mContextAnalyser;
   EUCTWDistributionAnalysis mDistributionAnalyser;
   char mLastChar[2];
+  bool mIsPreferredLanguage;
 
 };
 

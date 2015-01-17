@@ -51,35 +51,34 @@
 
 typedef struct
 {
-  unsigned char *charToOrderMap;    // [256] table use to find a char's order
-  char *precedenceMatrix;           // [SAMPLE_SIZE][SAMPLE_SIZE]; table to find a 2-char sequence's frequency
+  const unsigned char* const charToOrderMap;    // [256] table use to find a char's order
+  const PRUint8* const precedenceMatrix;  // [SAMPLE_SIZE][SAMPLE_SIZE]; table to find a 2-char sequence's frequency
   float  mTypicalPositiveRatio;     // = freqSeqs / totalSeqs 
-  PRBool keepEnglishLetter;         // says if this script contains English characters (not implemented)
-  const char* charsetName;
+  bool keepEnglishLetter;         // says if this script contains English characters (not implemented)
+  const char* const charsetName;
 } SequenceModel;
 
 
 class nsSingleByteCharSetProber : public nsCharSetProber{
 public:
-  nsSingleByteCharSetProber(SequenceModel *model) 
-    :mModel(model), mReversed(PR_FALSE), mNameProber(0) { Reset(); }
-  nsSingleByteCharSetProber(SequenceModel *model, PRBool reversed, nsCharSetProber* nameProber)
+  nsSingleByteCharSetProber(const SequenceModel *model) 
+    :mModel(model), mReversed(false), mNameProber(0) { Reset(); }
+  nsSingleByteCharSetProber(const SequenceModel *model, bool reversed, nsCharSetProber* nameProber)
     :mModel(model), mReversed(reversed), mNameProber(nameProber) { Reset(); }
 
   virtual const char* GetCharSetName();
   virtual nsProbingState HandleData(const char* aBuf, PRUint32 aLen);
-  virtual nsProbingState GetState(void) {return mState;};
+  virtual nsProbingState GetState(void) {return mState;}
   virtual void      Reset(void);
   virtual float     GetConfidence(void);
-  virtual void      SetOpion() {};
   
   // This feature is not implemented yet. any current language model
-  // contain this parameter as PR_FALSE. No one is looking at this
+  // contain this parameter as false. No one is looking at this
   // parameter or calling this method.
   // Moreover, the nsSBCSGroupProber which calls the HandleData of this
   // prober has a hard-coded call to FilterWithoutEnglishLetters which gets rid
   // of the English letters.
-  PRBool KeepEnglishLetters() {return mModel->keepEnglishLetter;}; // (not implemented)
+  bool KeepEnglishLetters() {return mModel->keepEnglishLetter;} // (not implemented)
 
 #ifdef DEBUG_chardet
   virtual void  DumpStatus();
@@ -87,8 +86,8 @@ public:
 
 protected:
   nsProbingState mState;
-  const SequenceModel *mModel;
-  const PRBool mReversed; // PR_TRUE if we need to reverse every pair in the model lookup
+  const SequenceModel* const mModel;
+  const bool mReversed; // true if we need to reverse every pair in the model lookup
 
   //char order of last character
   unsigned char mLastOrder;
@@ -106,19 +105,20 @@ protected:
 };
 
 
-extern SequenceModel Koi8rModel;
-extern SequenceModel Win1251Model;
-extern SequenceModel Latin5Model;
-extern SequenceModel MacCyrillicModel;
-extern SequenceModel Ibm866Model;
-extern SequenceModel Ibm855Model;
-extern SequenceModel Latin7Model;
-extern SequenceModel Win1253Model;
-extern SequenceModel Latin5BulgarianModel;
-extern SequenceModel Win1251BulgarianModel;
-extern SequenceModel Latin2HungarianModel;
-extern SequenceModel Win1250HungarianModel;
-extern SequenceModel Win1255Model;
+extern const SequenceModel Koi8rModel;
+extern const SequenceModel Win1251Model;
+extern const SequenceModel Latin5Model;
+extern const SequenceModel MacCyrillicModel;
+extern const SequenceModel Ibm866Model;
+extern const SequenceModel Ibm855Model;
+extern const SequenceModel Latin7Model;
+extern const SequenceModel Win1253Model;
+extern const SequenceModel Latin5BulgarianModel;
+extern const SequenceModel Win1251BulgarianModel;
+extern const SequenceModel Latin2HungarianModel;
+extern const SequenceModel Win1250HungarianModel;
+extern const SequenceModel Win1255Model;
+extern const SequenceModel TIS620ThaiModel;
 
 #endif /* nsSingleByteCharSetProber_h__ */
 

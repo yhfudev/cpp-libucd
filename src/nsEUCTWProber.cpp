@@ -36,27 +36,24 @@
  * ***** END LICENSE BLOCK ***** */
 
 #include "nsEUCTWProber.h"
+#include "nsDebug.h"
 
 void  nsEUCTWProber::Reset(void)
 {
   mCodingSM->Reset(); 
   mState = eDetecting;
-  mDistributionAnalyser.Reset();
+  mDistributionAnalyser.Reset(mIsPreferredLanguage);
   //mContextAnalyser.Reset();
 }
 
 nsProbingState nsEUCTWProber::HandleData(const char* aBuf, PRUint32 aLen)
 {
+  NS_ASSERTION(aLen, "HandleData called with empty buffer");
   nsSMState codingState;
 
   for (PRUint32 i = 0; i < aLen; i++)
   {
     codingState = mCodingSM->NextState(aBuf[i]);
-    if (codingState == eError)
-    {
-      mState = eNotMe;
-      break;
-    }
     if (codingState == eItsMe)
     {
       mState = eFoundIt;

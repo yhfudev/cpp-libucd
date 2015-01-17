@@ -52,13 +52,12 @@ typedef enum {
 
 class nsCharSetProber {
 public:
-  virtual ~nsCharSetProber() {};
+  virtual ~nsCharSetProber() {}
   virtual const char* GetCharSetName() = 0;
   virtual nsProbingState HandleData(const char* aBuf, PRUint32 aLen) = 0;
   virtual nsProbingState GetState(void) = 0;
   virtual void      Reset(void)  = 0;
   virtual float     GetConfidence(void) = 0;
-  virtual void      SetOpion() = 0;
 
 #ifdef DEBUG_chardet
   virtual void  DumpStatus() {};
@@ -67,9 +66,9 @@ public:
   // Helper functions used in the Latin1 and Group probers.
   // both functions Allocate a new buffer for newBuf. This buffer should be 
   // freed by the caller using PR_FREEIF.
-  // Both functions return PR_FALSE in case of memory allocation failure.
-  static PRBool FilterWithoutEnglishLetters(const char* aBuf, PRUint32 aLen, char** newBuf, PRUint32& newLen);
-  static PRBool FilterWithEnglishLetters(const char* aBuf, PRUint32 aLen, char** newBuf, PRUint32& newLen);
+  // Both functions return false in case of memory allocation failure.
+  static bool FilterWithoutEnglishLetters(const char* aBuf, PRUint32 aLen, char** newBuf, PRUint32& newLen);
+  static bool FilterWithEnglishLetters(const char* aBuf, PRUint32 aLen, char** newBuf, PRUint32& newLen);
 
 };
 

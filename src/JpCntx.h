@@ -46,12 +46,12 @@
 #define MAX_REL_THRESHOLD     1000
 
 //hiragana frequency category table
-extern char jp2CharContext[83][83];
+extern const PRUint8 jp2CharContext[83][83];
 
 class JapaneseContextAnalysis
 {
 public:
-  JapaneseContextAnalysis() {Reset();};
+  JapaneseContextAnalysis() {Reset(false);}
 
   void HandleData(const char* aBuf, PRUint32 aLen);
 
@@ -60,7 +60,7 @@ public:
     PRInt32 order;
 
     //if we received enough data, stop here   
-    if (mTotalRel > MAX_REL_THRESHOLD)   mDone = PR_TRUE;
+    if (mTotalRel > MAX_REL_THRESHOLD)   mDone = true;
     if (mDone)       return;
      
     //Only 2-bytes characters are of our interest
@@ -72,12 +72,11 @@ public:
       mRelSample[jp2CharContext[mLastCharOrder][order]]++;
     }
     mLastCharOrder = order;
-  };
+  }
 
-  float GetConfidence();
-  void      Reset(void);
-  void      SetOpion(){};
-  PRBool GotEnoughData() {return mTotalRel > ENOUGH_REL_THRESHOLD;};
+  float GetConfidence(void);
+  void      Reset(bool aIsPreferredLanguage);
+  bool GotEnoughData() {return mTotalRel > ENOUGH_REL_THRESHOLD;}
 
 protected:
   virtual PRInt32 GetOrder(const char* str, PRUint32 *charLen) = 0;
@@ -88,6 +87,9 @@ protected:
 
   //total sequence received
   PRUint32 mTotalRel;
+
+  //Number of sequences needed to trigger detection
+  PRUint32 mDataThreshold;
   
   //The order of previous char
   PRInt32  mLastCharOrder;
@@ -96,8 +98,8 @@ protected:
   //need to know how many byte to skip in next buffer.
   PRUint32 mNeedToSkipCharNum;
 
-  //If this flag is set to PR_TRUE, detection is done and conclusion has been made
-  PRBool   mDone;
+  //If this flag is set to true, detection is done and conclusion has been made
+  bool     mDone;
 };
 
 
@@ -115,7 +117,7 @@ protected:
           (unsigned char)*(str+1) <= (unsigned char)0xf1)
       return (unsigned char)*(str+1) - (unsigned char)0x9f;
     return -1;
-  };
+  }
 };
 
 class EUCJPContextAnalysis : public JapaneseContextAnalysis
@@ -130,7 +132,7 @@ protected:
           (unsigned char)*(str+1) <= (unsigned char)0xf3)
       return (unsigned char)*(str+1) - (unsigned char)0xa1;
     return -1;
-  };
+  }
 };
 
 #endif /* __JPCNTX_H__ */

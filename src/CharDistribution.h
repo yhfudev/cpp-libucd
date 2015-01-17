@@ -42,13 +42,15 @@
 
 #define ENOUGH_DATA_THRESHOLD 1024
  
+#define MINIMUM_DATA_THRESHOLD  4
+
 class CharDistributionAnalysis
 {
 public:
-  CharDistributionAnalysis() {Reset();};
+  CharDistributionAnalysis() {Reset(false);}
 
   //feed a block of data and do distribution analysis
-  void HandleData(const char* aBuf, PRUint32 aLen) {};
+  void HandleData(const char* aBuf, PRUint32 aLen) {}
   
   //Feed a character with known length
   void HandleOneChar(const char* aStr, PRUint32 aCharLen)
@@ -68,41 +70,41 @@ public:
           mFreqChars++;
       }
     }
-  };
+  }
 
   //return confidence base on existing data
-  float GetConfidence();
+  float GetConfidence(void);
 
   //Reset analyser, clear any state 
-  void      Reset(void) 
+  void      Reset(bool aIsPreferredLanguage) 
   {
-    mDone = PR_FALSE;
+    mDone = false;
     mTotalChars = 0;
     mFreqChars = 0;
-  };
-
-  //This function is for future extension. Caller can use this function to control
-  //analyser's behavior
-  void      SetOpion(){};
+    mDataThreshold = aIsPreferredLanguage ? 0 : MINIMUM_DATA_THRESHOLD;
+  }
 
   //It is not necessary to receive all data to draw conclusion. For charset detection,
   // certain amount of data is enough
-  PRBool GotEnoughData() {return mTotalChars > ENOUGH_DATA_THRESHOLD;};
+  bool GotEnoughData() {return mTotalChars > ENOUGH_DATA_THRESHOLD;}
 
 protected:
   //we do not handle character base on its original encoding string, but 
   //convert this encoding string to a number, here called order.
   //This allow multiple encoding of a language to share one frequency table 
-  virtual PRInt32 GetOrder(const char* str) {return -1;};
+  virtual PRInt32 GetOrder(const char* str) {return -1;}
   
-  //If this flag is set to PR_TRUE, detection is done and conclusion has been made
-  PRBool   mDone;
+  //If this flag is set to true, detection is done and conclusion has been made
+  bool     mDone;
 
   //The number of characters whose frequency order is less than 512
   PRUint32 mFreqChars;
 
   //Total character encounted.
   PRUint32 mTotalChars;
+
+  //Number of hi-byte characters needed to trigger detection
+  PRUint32 mDataThreshold;
 
   //Mapping table to get frequency order from char order (get from GetOrder())
   const PRInt16  *mCharToFreqOrder;
@@ -131,7 +133,7 @@ protected:
       return 94*((unsigned char)str[0]-(unsigned char)0xc4) + (unsigned char)str[1] - (unsigned char)0xa1;
     else
       return -1;
-  };
+  }
 };
 
 
@@ -149,7 +151,7 @@ protected:
       return 94*((unsigned char)str[0]-(unsigned char)0xb0) + (unsigned char)str[1] - (unsigned char)0xa1;
     else
       return -1;
-  };
+  }
 };
 
 class GB2312DistributionAnalysis : public CharDistributionAnalysis
@@ -166,7 +168,7 @@ protected:
       return 94*((unsigned char)str[0]-(unsigned char)0xb0) + (unsigned char)str[1] - (unsigned char)0xa1;
     else
       return -1;
-  };
+  }
 };
 
 
@@ -187,7 +189,7 @@ protected:
         return 157*((unsigned char)str[0]-(unsigned char)0xa4) + (unsigned char)str[1] - (unsigned char)0x40;
     else
       return -1;
-  };
+  }
 };
 
 class SJISDistributionAnalysis : public CharDistributionAnalysis
@@ -212,7 +214,7 @@ protected:
     if ((unsigned char)str[1] > (unsigned char)0x7f)
       order--;
     return order;
-  };
+  }
 };
 
 class EUCJPDistributionAnalysis : public CharDistributionAnalysis
@@ -229,7 +231,7 @@ protected:
       return 94*((unsigned char)str[0]-(unsigned char)0xa1) + (unsigned char)str[1] - (unsigned char)0xa1;
     else
       return -1;
-  };
+  }
 };
 
 #endif //CharDistribution_h__

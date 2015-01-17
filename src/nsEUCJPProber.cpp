@@ -41,27 +41,24 @@
 // 3, certain combination of kana is never used in japanese language
 
 #include "nsEUCJPProber.h"
+#include "nsDebug.h"
 
 void  nsEUCJPProber::Reset(void)
 {
   mCodingSM->Reset(); 
   mState = eDetecting;
-  mContextAnalyser.Reset();
-  mDistributionAnalyser.Reset();
+  mContextAnalyser.Reset(mIsPreferredLanguage);
+  mDistributionAnalyser.Reset(mIsPreferredLanguage);
 }
 
 nsProbingState nsEUCJPProber::HandleData(const char* aBuf, PRUint32 aLen)
 {
+  NS_ASSERTION(aLen, "HandleData called with empty buffer");
   nsSMState codingState;
 
   for (PRUint32 i = 0; i < aLen; i++)
   {
     codingState = mCodingSM->NextState(aBuf[i]);
-    if (codingState == eError)
-    {
-      mState = eNotMe;
-      break;
-    }
     if (codingState == eItsMe)
     {
       mState = eFoundIt;

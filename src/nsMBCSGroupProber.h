@@ -51,14 +51,13 @@
 
 class nsMBCSGroupProber: public nsCharSetProber {
 public:
-  nsMBCSGroupProber();
+  nsMBCSGroupProber(PRUint32 aLanguageFilter);
   virtual ~nsMBCSGroupProber();
   nsProbingState HandleData(const char* aBuf, PRUint32 aLen);
   const char* GetCharSetName();
-  nsProbingState GetState(void) {return mState;};
+  nsProbingState GetState(void) {return mState;}
   void      Reset(void);
   float     GetConfidence(void);
-  void      SetOpion() {};
 
 #ifdef DEBUG_chardet
   void  DumpStatus();
@@ -70,7 +69,7 @@ public:
 protected:
   nsProbingState mState;
   nsCharSetProber* mProbers[NUM_OF_PROBERS];
-  PRBool          mIsActive[NUM_OF_PROBERS];
+  bool            mIsActive[NUM_OF_PROBERS];
   PRInt32 mBestGuess;
   PRUint32 mActiveNum;
   PRUint32 mKeepNext;
