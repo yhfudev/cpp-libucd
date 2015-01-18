@@ -103,12 +103,10 @@ int ucd_parse (ucd_t * det, const char* data, size_t len)
         nsresult ret = reinterpret_cast<DllDetector *>(*det)->HandleData(data, (PRUint32)len);
         if (ret == NS_OK) {
             return UCD_RESULT_OK;
-        } else {
-            return UCD_RESULT_NOMEMORY;
         }
-    } else {
-        return UCD_RESULT_INVALID_DETECTOR;
+        return UCD_RESULT_NOMEMORY;
     }
+    return UCD_RESULT_INVALID_DETECTOR;
 }
 
 

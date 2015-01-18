@@ -12,6 +12,6 @@
 #include <stdlib.h>
 
 #define PR_Malloc(length) malloc(length)
-#define PR_FREEIF(p) if (p) free(p)
+#define PR_FREEIF(p) do { if (p) free(p); } while(0)
 
 #endif /* __NS_FAKE_PRMEM_H */
