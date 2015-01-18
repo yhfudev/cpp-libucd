@@ -1,0 +1,93 @@
+%global commit 872e0950ccaced127fe91a49d19ebf6348b083f9
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+%global shortname cpp-libucd
+
+Name:           libucd
+Version:        1.0.0
+Release:        1.git%{shortcommit}%{?dist}
+Summary:        Mozilla's Universal Charset Detector C/C++ API
+Summary(ko):    모질라 유니버샬 캐릭터셋 디텍트 라이브러리
+Summary(zh):    Mozilla 字符集检测 C/C++ API
+License:        GPLv2.0
+URL:            https://github.com/yhfudev/cpp-libucd.git
+
+Group:          Development/Libraries
+#Source:         https://github.com/yhfudev/cpp-libucd/releases/%{shortname}-%{version}.tar.gz
+Source0:        %{shortname}-%{shortcommit}.tar.gz
+
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires:  pkgconfig
+
+Prefix:         %{_prefix}
+Docdir:         %{_docdir}
+
+%description
+Standalone universal character set detector C/C++ API by Mozilla.
+
+%package devel
+Summary:        Development files for %{name}
+Summary(ko):    %{name} 를 이용하여 개발하기 위한 header 파일과 목적 파일들
+Summary(zh):    %{name} 的开发用库文件
+Group:          Development/Libraries
+#Requires:      pkgconfig
+Requires:		%{name}%{_isa} = %{version}-%{release}
+
+%description devel
+The %{name}-devel package contains libraries and header files for
+developing applications that use %{name}.
+
+%prep
+%setup -qn %{shortname}-%{shortcommit}
+./autogen.sh
+touch TODO Copyright
+
+%build
+%configure \
+  --enable-debug=no \
+  --enable-static \
+  --enable-shared=no
+
+make %{_smp_mflags}
+gzip -9 ChangeLog
+
+%install
+rm -fr %{buildroot}
+
+%makeinstall
+#(cd test ; make clean ; rm -rf .deps Makefile)
+rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+
+%clean
+rm -fr %{buildroot}
+
+%post
+/sbin/ldconfig
+
+%postun
+/sbin/ldconfig
+
+%files
+%defattr(-, root, root)
+
+%doc AUTHORS ChangeLog.gz NEWS README Copyright TODO
+#%doc %{_mandir}/man3/%{name}.3*
+
+#%{_libdir}/lib*.so*
+
+%files devel
+%defattr(-, root, root)
+
+%doc AUTHORS ChangeLog.gz NEWS README Copyright
+#%doc doc/html doc/*.png
+
+
+#%{_libdir}/lib*.so*
+%{_libdir}/lib*
+#%{_libdir}/*.sh
+%{_includedir}/*
+%{_libdir}/pkgconfig/%{name}.pc
+#/usr/share/doc/%{name}/html
+
+%changelog
+* Sat Aug 2 2014 Yunhui Fu <yhfudev@gmail.com> - 1.0.0-1
+- init

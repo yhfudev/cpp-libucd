@@ -1,0 +1,14 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: libucd
+Source: <https://github.com/yhfudev/cpp-libucd.git>
+
+Files: debian/*
+Copyright: 2014 Yunhui Fu <yhfudev@gmail.com>
+License: GPL 2.0
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU Public License Version 2.
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.
+# Please avoid to pick license terms that are more restrictive than the
+# packaged work, as it may make Debian's contributions unacceptable upstream.

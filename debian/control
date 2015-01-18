@@ -1,0 +1,25 @@
+Source: libucd
+Priority: optional
+Maintainer: Yunhui Fu <yhfudev@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), autotools-dev
+Standards-Version: 3.9.4
+Section: libs
+Homepage: <insert the upstream URL, if relevant>
+Vcs-Git: https://github.com/yhfudev/cpp-libucd.git
+Vcs-Browser: https://github.com/yhfudev/cpp-libucd.git
+
+Package: libucd-dev
+Section: libdevel
+Architecture: any
+Depends: libucd (= ${binary:Version})
+Description: Mozilla's Universal Charset Detector C/C++ API
+ The libucd-dev package contains libraries and header files for
+ developing applications that use libucd.
+
+
+Package: libucd
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Mozilla's Universal Charset Detector C/C++ API
+ Standalone universal character set detector C/C++ API by Mozilla.

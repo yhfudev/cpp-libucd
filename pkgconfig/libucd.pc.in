@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libucd
+URL: https://github.com/yhfudev/cpp-libucd
+Description: Mozilla's Universal Charset Detector C/C++ API
+Version: @PACKAGE_VERSION@
+Requires: 
+Libs: -L${libdir} -lucd
+Cflags: -I${includedir}

@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/autotools.mk
+include /usr/share/cdbs/1/rules/autoreconf.mk
+
+#common-install-arch::
+#	find $(DEB_DESTDIR) \( -name "*.la" -o -name "*.a" \) -delete
