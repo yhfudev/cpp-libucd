@@ -110,33 +110,33 @@ nsresult nsUniversalDetector::HandleData(const char* aBuf, PRUint32 aLen)
   if (mStart)
   {
     mStart = false;
-    if (aLen > 2)
+    if (aLen > 2) {
       switch (aBuf[0])
         {
         case '\xEF':
-          if (('\xBB' == aBuf[1]) && ('\xBF' == aBuf[2]))
+          if ((aLen > 2) && ('\xBB' == aBuf[1]) && ('\xBF' == aBuf[2]))
             // EF BB BF  UTF-8 encoded BOM
             mDetectedCharset = "UTF-8";
         break;
         case '\xFE':
           if ('\xFF' == aBuf[1])
             // FE FF  UTF-16, big endian BOM
-            mDetectedCharset = "UTF-16";
+            mDetectedCharset = "UTF-16BE";
         break;
         case '\xFF':
           if ('\xFE' == aBuf[1])
             // FF FE  UTF-16, little endian BOM
-            mDetectedCharset = "UTF-16";
+            mDetectedCharset = "UTF-16LE";
         break;
       }  // switch
-
+    }
       if (mDetectedCharset)
       {
         mDone = true;
         return NS_OK;
       }
   }
-  
+
   PRUint32 i;
   for (i = 0; i < aLen; i++)
   {

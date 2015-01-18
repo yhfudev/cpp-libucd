@@ -213,8 +213,8 @@ PRInt32 EUCJPContextAnalysis::GetOrder(const char* str, PRUint32 *charLen)
 {
   //find out current char's byte length
   if ((unsigned char)*str == (unsigned char)0x8e ||
-      (unsigned char)*str >= (unsigned char)0xa1 && 
-      (unsigned char)*str <= (unsigned char)0xfe)
+      ((unsigned char)*str >= (unsigned char)0xa1 && 
+      (unsigned char)*str <= (unsigned char)0xfe))
       *charLen = 2;
   else if ((unsigned char)*str == (unsigned char)0x8f)
     *charLen = 3;

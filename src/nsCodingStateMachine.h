@@ -54,8 +54,17 @@ typedef struct
   PRUint32 classFactor;
   nsPkgInt stateTable;
   const PRUint32* charLenTable;
+#ifdef DEBUG
+  const size_t szCharLenTable;
+#endif
   const char* name;
 } SMModel;
+
+#ifdef DEBUG
+#  define PUT_CHARTAB(a) (a), NS_ARRAY_LENGTH(a)
+#else
+#  define PUT_CHARTAB(a) (a)
+#endif
 
 class nsCodingStateMachine {
 public:
@@ -64,8 +73,11 @@ public:
     //for each byte we get its class , if it is first byte, we also get byte length
     PRUint32 byteCls = GETCLASS(c);
     if (mCurrentState == eStart)
-    { 
-      mCurrentBytePos = 0; 
+    {
+      mCurrentBytePos = 0;
+#ifdef DEBUG
+      assert (byteCls < mModel->szCharLenTable);
+#endif
       mCurrentCharLen = mModel->charLenTable[byteCls];
     }
     //from byte's class and stateTable, we get its next state
