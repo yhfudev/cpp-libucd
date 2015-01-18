@@ -1,10 +1,10 @@
 %global commit 872e0950ccaced127fe91a49d19ebf6348b083f9
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global shortname cpp-libucd
+%global shortcommit @VERSION@
+%global shortname @PACKAGE@
 
 Name:           libucd
-Version:        1.0.0
-Release:        1.git%{shortcommit}%{?dist}
+Version:        %{shortcommit}
+Release:        1
 Summary:        Mozilla's Universal Charset Detector C/C++ API
 Summary(ko):    모질라 유니버샬 캐릭터셋 디텍트 라이브러리
 Summary(zh):    Mozilla 字符集检测 C/C++ API
@@ -30,7 +30,7 @@ Summary(ko):    %{name} 를 이용하여 개발하기 위한 header 파일과 �
 Summary(zh):    %{name} 的开发用库文件
 Group:          Development/Libraries
 #Requires:      pkgconfig
-Requires:		%{name}%{_isa} = %{version}-%{release}
+Requires:       %{name}%{_isa} = %{version}-%{release}
 
 %description devel
 The %{name}-devel package contains libraries and header files for
@@ -45,7 +45,8 @@ touch TODO Copyright
 %configure \
   --enable-debug=no \
   --enable-static \
-  --enable-shared=no
+  --enable-shared=no \
+  --disable-icu
 
 make %{_smp_mflags}
 gzip -9 ChangeLog
@@ -86,6 +87,7 @@ rm -fr %{buildroot}
 #%{_libdir}/*.sh
 %{_includedir}/*
 %{_libdir}/pkgconfig/%{name}.pc
+%{_bindir}/ucd
 #/usr/share/doc/%{name}/html
 
 %changelog
