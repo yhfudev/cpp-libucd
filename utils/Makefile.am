@@ -1,6 +1,11 @@
 
 #noinst_PROGRAMS=ucd
 
+noinst_HEADERS = \
+    getline.h \
+    i18n.h \
+    $(NULL)
+
 bin_PROGRAMS=ucd
 
 ucd_SOURCES= \
@@ -91,21 +96,3 @@ else
 AM_CPPFLAGS+=-O3 -Wall
 endif
 
-#AM_CPPFLAGS+=-fpermissive
-
-
-EXT_FLAGS=
-@MK@GITNUMTMP=$(shell cd "$(top_srcdir)"; A=$$(git show | head -n 1 | awk '{print $$2}'); echo $${A:0:7}; cd - > /dev/null )
-#@MK@SVNNUMTMP=$(shell cd "$(top_srcdir)"; LC_ALL=C svn info | grep -i Revision | awk '{print $$2}'; cd - > /dev/null )
-#@MK@ifeq ($(SVNNUMTMP),)
-#EXT_FLAGS+= -DSVN_VERSION='"${GITNUMTMP}"'
-#@MK@else
-#EXT_FLAGS+= -DSVN_VERSION='"${SVNNUMTMP}"'
-#@MK@endif
-@MK@ifeq ($(GITNUMTMP),)
-@MK@else
-EXT_FLAGS+= -DSVN_VERSION='"${GITNUMTMP}"'
-@MK@endif
-DEFS+=$(EXT_FLAGS)
-
-#AM_CPPFLAGS+=$(EXT_FLAGS)

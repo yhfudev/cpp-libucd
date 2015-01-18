@@ -8,6 +8,7 @@
 #define nsCodingStateMachine_h__
 
 #include "nsPkgInt.h"
+#include "nsDebug.h"
 
 typedef enum {
    eStart = 0,
@@ -46,7 +47,7 @@ public:
     {
       mCurrentBytePos = 0;
 #ifdef DEBUG
-      assert (byteCls < mModel->szCharLenTable);
+      NS_ASSERTION (byteCls < mModel->szCharLenTable, "char tab overflow!!");
 #endif
       mCurrentCharLen = mModel->charLenTable[byteCls];
     }

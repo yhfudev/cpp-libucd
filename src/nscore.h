@@ -11,6 +11,7 @@
 #define __NS_FAKE_CORE_H
 
 #include <stdint.h>
+#include <stddef.h>
 
 typedef bool     PRBool;
 typedef int32_t  PRInt32;

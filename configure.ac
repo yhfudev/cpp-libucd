@@ -1,11 +1,11 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.61)
-AC_INIT(libchsetdet, 1.0, BUG-REPORT-ADDRESS)
+AC_PREREQ(2.59)
+AC_INIT(libucd, 1.0.0, https://github.com/yhfudev/cpp-libucd.git)
 AC_CONFIG_SRCDIR([utils/ucd.c])
 AC_CONFIG_HEADER([config.h])
-AM_INIT_AUTOMAKE(-Wall subdir-objects)
+AM_INIT_AUTOMAKE(-Wall subdir-objects foreign color-tests dist-bzip2 parallel-tests)
 
 #magic for conditional check in Makefile:
 MK=''; AC_SUBST(MK)
@@ -16,7 +16,7 @@ AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
-AM_PROG_AR
+m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 
 # Checks for libraries.
 LT_INIT([shared static])
@@ -144,6 +144,7 @@ AC_OUTPUT(Makefile
 	src/Makefile
 	pkgconfig/Makefile
 	pkgconfig/libucd.pc
+	rpm/libucd.spec
 	utils/Makefile
 )
 AC_OUTPUT

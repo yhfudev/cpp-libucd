@@ -16,6 +16,7 @@ sed -i "s|%global shortcommit .*$|%global shortcommit %(c=%{commit}; echo \${c:0
 sed -i "s|Source0:.*$|Source0:        %{shortname}-%{shortcommit}.tar.gz|"  ${FN_RPMSPEC}
 sed -i "s|%setup .*$|%setup -qn %{shortname}-%{shortcommit}|"       ${FN_RPMSPEC}
 sed -i "s|Release:.*$|Release:        1.git%{shortcommit}%{?dist}|" ${FN_RPMSPEC}
+sed -i "s|Version:.*$|Version:        1.0.0|" ${FN_RPMSPEC}
 
 RPMNAME=$(grep Name: ${FN_RPMSPEC} | awk '{print $2}')
 FILELIST=$(grep "Source[0-9]*:" "${FN_RPMSPEC}" | awk '{print $2}' | sed -e "s|%{name}|${RPMNAME}|g" | sed -e "s|%{shortname}|${SHORTNAME}|g" | sed -e "s|%{shortcommit}|${SHORTCOMMIT}|g" | sed -e "s|%{shortgit}|${SHORTCOMMIT}|g")

@@ -13,7 +13,7 @@ rm -f missing
 rm -f depcomp
 
 
-touch README NEWS AUTHORS ChangeLog config.h.in
+touch README NEWS AUTHORS LICENSE config.h.in
 
 #################
 #autoscan
@@ -24,6 +24,8 @@ automake -a -c
 autoconf
 
 ./configure --enable-static --enable-shared --enable-debug --prefix=`pwd`/aaa --disable-icu
-make distclean
+make clean
+make ChangeLog
 #make
+#make distclean
 
