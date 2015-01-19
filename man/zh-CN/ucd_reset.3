@@ -1,0 +1,73 @@
+.TH ucd_reset 3 2015-01-12 "libucd Manuals"
+.\" Process with
+.\" nroff -man ucd_reset.3
+.\" 2015-01-12 Yunhui Fu <https://github.com/yhfudev>
+
+.SH NAME
+ucd_reset \- 重置探测结构
+
+.SH "总览 (SYNOPSIS)"
+.I #include <libucd.h>
+.br
+.I void ucd_reset (ucd_t * det);
+
+.SH "描述 (DESCRIPTION)"
+重置探测结构, 用于检测新的数据。
+
+.SH "返回值"
+void
+.PP
+
+.SH "例子"
+.nf
+#include <stdio.h>
+#include <string.h>
+
+#include <libucd.h>
+
+int main (void) {
+    int i;
+    int ret;
+    ucd_t det;
+    char buffer[100] = "test data";
+
+    if ( ucd_init (&det) < 0 ) {
+        fprintf (stderr, "libucd initialize failed\\n");
+        return -1;
+    }
+
+    for (i = 0; i < 2; i ++) {
+        ret = ucd_parse (&det, buffer, strlen(buffer));
+        switch (ret) {
+        case UCD_RESULT_NOMEMORY :
+            fprintf (stderr, "On handle processing, occured out of memory\\n");
+            break;
+        case UCD_RESULT_INVALID_DETECTOR :
+            fprintf (stderr, "error in parsing\\n");
+            break;
+        default:
+            break;
+        }
+        memset (buffer, 0, sizeof(buffer));
+        if (ret >= 0) {
+            ucd_end (&det);
+            ucd_results (&det, buffer, sizeof(buffer));
+        }
+        ucd_reset (&det);
+    }
+    ucd_clear (&det);
+
+    printf ("encoding: %s\\n", buffer);
+
+    return 0;
+}
+.fi
+
+.SH "作者"
+Yunhui Fu <https://github.com/yhfudev>
+
+.SH "问题报告"
+Use QnA board on https://github.com/yhfudev
+
+.SH "参见"
+ucd_init(3), ucd_parse(3), ucd_end(3), ucd_results(3), ucd_clear(3)

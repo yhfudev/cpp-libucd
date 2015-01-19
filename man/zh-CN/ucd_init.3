@@ -1,0 +1,77 @@
+.TH ucd_init 3 2015-01-12 "libucd Manuals"
+.\" Process with
+.\" nroff -man ucd_init.3
+.\" 2015-01-12 Yunhui Fu <https://github.com/yhfudev>
+
+.SH NAME
+ucd_init - 初始化探测数据结构
+
+.SH "总览 (SYNOPSIS)"
+.I #include <libucd.h>
+.br
+.I int ucd_init (ucd_t * det);
+
+.SH "描述 (DESCRIPTION)"
+初始化探测数据结构
+.B ucd_t
+。
+
+.SH "返回值"
+出错返回
+.B -1
+，成功则返回
+.B 0
+。
+
+.PP
+
+.SH "例子"
+.nf
+#include <stdio.h>
+#include <string.h>
+
+#include <libucd.h>
+
+int main (void) {
+    int ret;
+    ucd_t det;
+    char buffer[100] = "test data";
+
+    if ( ucd_init (&det) < 0 ) {
+        fprintf (stderr, "libucd initialize failed\\n");
+        return -1;
+    }
+
+    ret = ucd_parse (&det, buffer, strlen(buffer));
+    switch (ret) {
+    case UCD_RESULT_NOMEMORY :
+        fprintf (stderr, "On handle processing, occured out of memory\\n");
+        break;
+    case UCD_RESULT_INVALID_DETECTOR :
+        fprintf (stderr, "error in parsing\\n");
+        break;
+    default:
+        break;
+    }
+    memset (buffer, 0, sizeof(buffer));
+    if (ret >= 0) {
+        ucd_end (&det);
+        ucd_results (&det, buffer, sizeof(buffer));
+    }
+    ucd_clear (&det);
+
+    printf ("encoding: %s\\n", buffer);
+
+    return 0;
+}
+.fi
+
+.SH "作者"
+Yunhui Fu <https://github.com/yhfudev>
+
+.SH "问题报告"
+Use QnA board on https://github.com/yhfudev
+
+.SH "参见"
+ucd_parse(3), ucd_end(3), ucd_results(3), ucd_clear(3)
+

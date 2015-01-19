@@ -1,0 +1,73 @@
+.TH ucd_end 3 2015-01-12 "libucd Manuals"
+.\" Process with
+.\" nroff -man ucd_end.3
+.\" 2015-01-12 Yunhui Fu <https://github.com/yhfudev>
+
+.SH NAME
+ucd_end \- user feeding data done
+
+.SH SNOPSIS
+.I #include <libucd.h>
+.br
+.I void ucd_end (ucd_t * det);
+
+.SH DESCRIPTION
+user feeding data done, and start detecting the char set encoding.
+
+.SH "RETURN VALUE"
+void
+.PP
+
+.SH EXAMPLE
+.nf
+#include <stdio.h>
+#include <string.h>
+
+#include <libucd.h>
+
+int main (void) {
+    int i;
+    int ret;
+    ucd_t det;
+    char buffer[100] = "test data";
+
+    if ( ucd_init (&det) < 0 ) {
+        fprintf (stderr, "libucd initialize failed\\n");
+        return -1;
+    }
+
+    for (i = 0; i < 2; i ++) {
+        ret = ucd_parse (&det, buffer, strlen(buffer));
+        switch (ret) {
+        case UCD_RESULT_NOMEMORY :
+            fprintf (stderr, "On handle processing, occured out of memory\\n");
+            break;
+        case UCD_RESULT_INVALID_DETECTOR :
+            fprintf (stderr, "error in parsing\\n");
+            break;
+        default:
+            break;
+        }
+        memset (buffer, 0, sizeof(buffer));
+        if (ret >= 0) {
+            ucd_end (&det);
+            ucd_results (&det, buffer, sizeof(buffer));
+        }
+        ucd_reset (&det);
+    }
+    ucd_clear (&det);
+
+    printf ("encoding: %s\\n", buffer);
+
+    return 0;
+}
+.fi
+
+.SH AUTHORS
+Yunhui Fu <https://github.com/yhfudev>
+
+.SH "BUG REPORTS"
+Use QnA board on https://github.com/yhfudev
+
+.SH "SEE ALSO"
+ucd_init(3), ucd_parse(3), ucd_results(3), ucd_clear(3)
