@@ -38,7 +38,9 @@ nsProbingState nsUTF8Prober::HandleData(const char* aBuf, PRUint32 aLen)
   return mState;
 }
 
-#define ONE_CHAR_PROB   (float)0.50
+//#define ONE_CHAR_PROB   (float)0.50
+/* use the value 0.547 so that the confident value may less than that of Thai when the file is encoded in windows-874 */
+#define ONE_CHAR_PROB   (float)0.547
 
 float nsUTF8Prober::GetConfidence(void)
 {
