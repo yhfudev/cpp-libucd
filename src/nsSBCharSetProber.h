@@ -25,6 +25,7 @@ typedef struct
   float  mTypicalPositiveRatio;     // = freqSeqs / totalSeqs 
   bool keepEnglishLetter;         // says if this script contains English characters (not implemented)
   const char* const charsetName;
+  const char* const langName;
 } SequenceModel;
 
 
@@ -36,18 +37,13 @@ public:
     :mModel(model), mReversed(reversed), mNameProber(nameProber) { Reset(); }
 
   virtual const char* GetCharSetName();
+  virtual const char* GetLangName() {return mModel?mModel->langName:"";}
   virtual nsProbingState HandleData(const char* aBuf, PRUint32 aLen);
   virtual nsProbingState GetState(void) {return mState;}
   virtual void      Reset(void);
   virtual float     GetConfidence(void);
-  
-  // This feature is not implemented yet. any current language model
-  // contain this parameter as false. No one is looking at this
-  // parameter or calling this method.
-  // Moreover, the nsSBCSGroupProber which calls the HandleData of this
-  // prober has a hard-coded call to FilterWithoutEnglishLetters which gets rid
-  // of the English letters.
-  bool KeepEnglishLetters() {return mModel->keepEnglishLetter;} // (not implemented)
+
+  virtual PRBool KeepEnglishLetters() {return mModel->keepEnglishLetter;}
 
 #ifdef DEBUG_chardet
   virtual void  DumpStatus();
@@ -80,14 +76,22 @@ extern const SequenceModel Latin5Model;
 extern const SequenceModel MacCyrillicModel;
 extern const SequenceModel Ibm866Model;
 extern const SequenceModel Ibm855Model;
-extern const SequenceModel Latin7Model;
-extern const SequenceModel Win1253Model;
+extern const SequenceModel ISO_8859_7greekModel;
+extern const SequenceModel WINDOWS_1253greekModel;
 extern const SequenceModel Latin5BulgarianModel;
 extern const SequenceModel Win1251BulgarianModel;
 extern const SequenceModel Latin2HungarianModel;
 extern const SequenceModel Win1250HungarianModel;
 extern const SequenceModel Win1255Model;
 extern const SequenceModel TIS620ThaiModel;
+extern const SequenceModel WINDOWS_1252frenchModel;
+extern const SequenceModel WINDOWS_1252germanModel;
+extern const SequenceModel WINDOWS_1252swedishModel;
+extern const SequenceModel ISO_8859_9turkishModel;
+extern const SequenceModel WINDOWS_1252finnishModel;
+extern const SequenceModel windows_1252spanishModel;
+extern const SequenceModel iso_8859_2czechModel;
+extern const SequenceModel iso_8859_2polishModel;
 
 #endif /* nsSingleByteCharSetProber_h__ */
 

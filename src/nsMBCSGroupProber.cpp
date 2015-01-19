@@ -10,7 +10,7 @@
 #include "nsUniversalDetector.h"
 
 #if defined(DEBUG_chardet) || defined(DEBUG_jgmyers)
-const char *ProberName[] = 
+const char *ProberName[NUM_OF_PROBERS] = 
 {
   "UTF8",
   "SJIS",

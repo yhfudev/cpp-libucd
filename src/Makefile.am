@@ -50,6 +50,14 @@ libucd_la_SOURCES = \
     LangHebrewModel.cpp \
     LangHungarianModel.cpp \
     LangThaiModel.cpp \
+    LangCzechModel.cpp \
+    LangFinnishModel.cpp \
+    LangFrenchModel.cpp \
+    LangGermanModel.cpp \
+    LangPolishModel.cpp \
+    LangSpanishModel.cpp \
+    LangSwedishModel.cpp \
+    LangTurkishModel.cpp \
     nsBig5Prober.cpp \
     nsCharSetProber.cpp \
     nsEUCJPProber.cpp \

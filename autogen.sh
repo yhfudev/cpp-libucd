@@ -23,9 +23,10 @@ aclocal
 automake -a -c
 autoconf
 
-./configure --enable-static --enable-shared --enable-debug --prefix=`pwd`/aaa --disable-icu
+./configure --enable-static --enable-shared --enable-debug --prefix=/usr --disable-icu
 make clean
 make ChangeLog
+make dist
 #make
 #make distclean
 

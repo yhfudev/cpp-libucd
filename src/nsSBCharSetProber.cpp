@@ -13,7 +13,8 @@ nsProbingState nsSingleByteCharSetProber::HandleData(const char* aBuf, PRUint32 
 
   for (PRUint32 i = 0; i < aLen; i++)
   {
-    order = mModel->charToOrderMap[(unsigned char)aBuf[i]];
+    // Order is in [1-64] but we want 0-63 here. 
+    order = mModel->charToOrderMap[(unsigned char)aBuf[i]] -1;
 
     if (order < SYMBOL_CAT_ORDER)
       mTotalChar++;
@@ -90,6 +91,6 @@ const char* nsSingleByteCharSetProber::GetCharSetName()
 #ifdef DEBUG_chardet
 void nsSingleByteCharSetProber::DumpStatus()
 {
-  printf("  SBCS: %1.3f [%s]\r\n", GetConfidence(), GetCharSetName());
+  printf("  SBCS: %1.3f [%s] [%s]\r\n", GetConfidence(), mModel->langName, GetCharSetName());
 }
 #endif
