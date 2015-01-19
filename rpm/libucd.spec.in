@@ -71,7 +71,8 @@ rm -fr %{buildroot}
 %defattr(-, root, root)
 
 %doc AUTHORS ChangeLog.gz NEWS README Copyright TODO
-#%doc %{_mandir}/man3/%{name}.3*
+%{_mandir}/man1/*
+%{_mandir}/zh-CN/man1/*
 
 #%{_libdir}/lib*.so*
 
@@ -88,6 +89,8 @@ rm -fr %{buildroot}
 %{_includedir}/*
 %{_libdir}/pkgconfig/%{name}.pc
 %{_bindir}/ucd
+%{_mandir}/man3/*
+%{_mandir}/zh-CN/man3/*
 #/usr/share/doc/%{name}/html
 
 %changelog

@@ -1,5 +1,5 @@
 
-#noinst_PROGRAMS=ucd
+noinst_PROGRAMS=sample
 
 noinst_HEADERS = \
     getline.h \
@@ -15,9 +15,16 @@ ucd_SOURCES= \
     ucd.c \
     $(NULL)
 
+sample_SOURCES= \
+    dummy.cpp \
+    sample.c \
+    $(NULL)
+
 # force the autoconf use g++ to link the c program with c++ lib
 dummy.cpp:
 	touch $@
+
+sample_LDADD=../src/libucd.la
 
 ucd_LDADD=
 

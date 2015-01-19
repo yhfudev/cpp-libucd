@@ -1,4 +1,4 @@
-SUBDIRS=src pkgconfig utils langstats
+SUBDIRS=src pkgconfig utils langstats man
 DISTCLEANFILES =
 
 EXTRA_DIST=autogen.sh autoclean.sh ChangeLog

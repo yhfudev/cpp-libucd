@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for libchsetdet
+# postinst script for libucd
 #
 # see: dh_installdeb(1)
 

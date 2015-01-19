@@ -1,5 +1,5 @@
 #!/bin/sh
-# prerm script for libchsetdet
+# prerm script for libucd
 #
 # see: dh_installdeb(1)
 

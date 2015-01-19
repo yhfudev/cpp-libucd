@@ -147,5 +147,6 @@ AC_OUTPUT(Makefile
 	rpm/libucd.spec
 	langstats/Makefile
 	utils/Makefile
+	man/Makefile
 )
 AC_OUTPUT
