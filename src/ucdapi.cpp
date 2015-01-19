@@ -117,9 +117,8 @@ int ucd_end (ucd_t * det)
     if (*det) {
         reinterpret_cast<DllDetector *>(*det)->DataEnd();
         return UCD_RESULT_OK;
-    } else {
-        return UCD_RESULT_INVALID_DETECTOR;
     }
+    return UCD_RESULT_INVALID_DETECTOR;
 }
 
 
@@ -130,9 +129,8 @@ int ucd_reset(ucd_t * det)
     if (*det) {
         reinterpret_cast<DllDetector *>(*det)->Reset();
         return UCD_RESULT_OK;
-    } else {
-        return UCD_RESULT_INVALID_DETECTOR;
     }
+    return UCD_RESULT_INVALID_DETECTOR;
 }
 
 UCD_IMEXPORT
@@ -150,20 +148,16 @@ int ucd_results (ucd_t * det, char* namebuf, size_t buflen)
                 //*namebuf = 0;
                 strcpy (namebuf, CSTR_DEFAULT);
                 return UCD_RESULT_OK;
-            } else {
-                return UCD_RESULT_NOMEMORY;
             }
-        } else {
-            // encoding detected
-            if (buflen >= strlen(name)+1) {
-                strcpy(namebuf, name);
-                return UCD_RESULT_OK;
-            } else {
-                return UCD_RESULT_NOMEMORY;
-            }
+            return UCD_RESULT_NOMEMORY;
         }
-    } else {
-        return UCD_RESULT_INVALID_DETECTOR;
+        // encoding detected
+        if (buflen >= strlen(name)+1) {
+            strcpy(namebuf, name);
+            return UCD_RESULT_OK;
+        }
+        return UCD_RESULT_NOMEMORY;
     }
+    return UCD_RESULT_INVALID_DETECTOR;
 }
 
