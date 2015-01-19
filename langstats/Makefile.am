@@ -1,5 +1,5 @@
 
-EXTRA_DIST = mkpairmodel.py README.txt
+EXTRA_DIST = mkpairmodel.py readme.txt
 EXTRA_DIST += \
     french/french_WINDOWS-1252.txt \
     french/charstats_french_WINDOWS-1252.txt \
