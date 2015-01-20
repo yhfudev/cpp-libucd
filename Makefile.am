@@ -3,7 +3,7 @@ DISTCLEANFILES =
 
 EXTRA_DIST=autogen.sh autoclean.sh Android.mk AUTHORS README.md ChangeLog
 
-EXTRA_DIST += debian/* doc/* pacman/* test/*
+EXTRA_DIST += debian/* doc/* pacman/PKGBUILD test/*
 
 CLEANFILES = *~ *.bz2 *.tar.gz *.log
 
@@ -22,8 +22,8 @@ RPMBUILDTOPDIR = $(shell unset RPMBUILDTOPDIR; if [ -f ${HOME}/.rpmmacros ]; the
 rpm: dist rpm/@PACKAGE@.spec ${RPMBUILDTOPDIR}/SOURCES/ ${RPMBUILDTOPDIR}/SPECS/
 	$(RM) ${RPMBUILDTOPDIR}/SOURCES/$(distdir).tar.gz
 	$(RM) ${RPMBUILDTOPDIR}/SPECS/@PACKAGE@.spec
-	$(LN_S) $(srcdir)/$(distdir).tar.gz ${RPMBUILDTOPDIR}/SOURCES/
-	$(LN_S) $(srcdir)/rpm/@PACKAGE@.spec ${RPMBUILDTOPDIR}/SPECS/
+	cp $(srcdir)/$(distdir).tar.gz  ${RPMBUILDTOPDIR}/SOURCES/
+	cp $(srcdir)/rpm/@PACKAGE@.spec ${RPMBUILDTOPDIR}/SPECS/
 	rpmbuild -ba ${RPMBUILDTOPDIR}/SPECS/@PACKAGE@.spec
 
 #	$(shell git log v2.1.0...v2.1.1 --pretty=format:'<li> <a href="http://github.com/yhfudev/cpp-libucd/commit/%H">view commit &bull;</a> %s</li> ' --reverse | grep "#changelog" > ChangeLog.html)

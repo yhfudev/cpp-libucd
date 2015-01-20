@@ -4,16 +4,16 @@
 
 Name:           libucd
 Version:        %{shortcommit}
-Release:        1
-Summary:        Universal Charset Detector C/C++ API
+Release:        1%{?dist}
+Summary:        Universal Char-set Detector C/C++ API
 Summary(ko):    유니버샬 캐릭터셋 디텍트 라이브러리
-Summary(zh):    字符集检测 C/C++ API
-License:        GPLv2.0
+Summary(zh_CN): 字符集检测 C/C++ API
+License:        GPLv2
 URL:            https://github.com/yhfudev/cpp-libucd.git
 
 Group:          Development/Libraries
 #Source:         https://github.com/yhfudev/cpp-libucd/releases/%{shortname}-%{version}.tar.gz
-Source0:        %{shortname}-%{shortcommit}.tar.gz
+Source0:        http://192.168.3.5/%{shortname}-%{shortcommit}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  pkgconfig
@@ -27,7 +27,7 @@ Standalone universal character set detector C/C++ API.
 %package devel
 Summary:        Development files for %{name}
 Summary(ko):    %{name} 를 이용하여 개발하기 위한 header 파일과 목적 파일들
-Summary(zh):    %{name} 的开发用库文件
+Summary(zh):    用于 %{name} 开发库的文件
 Group:          Development/Libraries
 #Requires:      pkgconfig
 Requires:       %{name}%{_isa} = %{version}-%{release}
@@ -44,11 +44,11 @@ touch TODO Copyright
 %build
 %configure \
   --enable-debug=no \
-  --enable-static \
-  --enable-shared=no \
+  --disable-static \
+  --enable-shared \
   --disable-icu
 
-make %{_smp_mflags}
+make %{?_smp_mflags}
 gzip -9 ChangeLog
 
 %install
@@ -61,36 +61,29 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
 %clean
 rm -fr %{buildroot}
 
-%post
-/sbin/ldconfig
+%post   -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
-%postun
-/sbin/ldconfig
+%post   -n %{name}-devel -p /sbin/ldconfig
+%postun -n %{name}-devel -p /sbin/ldconfig
 
 %files
-%defattr(-, root, root)
-
-%doc AUTHORS ChangeLog.gz NEWS README Copyright TODO
+%defattr(0644,root,root)
+%attr(0755,root,root) %{_bindir}/ucd
+%attr(0755,root,root) %{_libdir}/*.so.*
+%doc AUTHORS ChangeLog.gz README.md
 %{_mandir}/man1/*
-%{_mandir}/zh-CN/man1/*
-
-#%{_libdir}/lib*.so*
+%lang(zh_CN) %{_mandir}/zh_CN/man1/*
 
 %files devel
-%defattr(-, root, root)
-
-%doc AUTHORS ChangeLog.gz NEWS README Copyright
+%defattr(0644,root,root,0755)
+%doc AUTHORS ChangeLog.gz README.md
 #%doc doc/html doc/*.png
-
-
-#%{_libdir}/lib*.so*
 %{_libdir}/lib*
-#%{_libdir}/*.sh
 %{_includedir}/*
 %{_libdir}/pkgconfig/%{name}.pc
-%{_bindir}/ucd
 %{_mandir}/man3/*
-%{_mandir}/zh-CN/man3/*
+%lang(zh_CN) %{_mandir}/zh_CN/man3/*
 #/usr/share/doc/%{name}/html
 
 %changelog

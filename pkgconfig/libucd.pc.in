@@ -3,7 +3,7 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: libucd
+Name: @PACKAGE_NAME@
 URL: https://github.com/yhfudev/cpp-libucd
 Description: Universal Charset Detector C/C++ API
 Version: @PACKAGE_VERSION@

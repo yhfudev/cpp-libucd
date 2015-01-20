@@ -1,14 +1,14 @@
 
 MAN3ZHCN= \
-    zh-CN/ucd_init.3 \
-    zh-CN/ucd_clear.3 \
-    zh-CN/ucd_parse.3 \
-    zh-CN/ucd_end.3 \
-    zh-CN/ucd_reset.3 \
+    zh_CN/ucd_init.3 \
+    zh_CN/ucd_clear.3 \
+    zh_CN/ucd_parse.3 \
+    zh_CN/ucd_end.3 \
+    zh_CN/ucd_reset.3 \
     $(NULL)
 
 MAN1ZHCN= \
-    zh-CN/ucd.1 \
+    zh_CN/ucd.1 \
     $(NULL)
 
 MAN1EN= \
@@ -33,8 +33,8 @@ dist_man_MANS = \
     $(MAN3EN) \
     $(NULL)
 
-zh_CN_man3dir = $(mandir)/zh-CN/man3
+zh_CN_man3dir = $(mandir)/zh_CN/man3
 zh_CN_man3_DATA = $(MAN3ZHCN)
 
-zh_CN_man1dir = $(mandir)/zh-CN/man1
+zh_CN_man1dir = $(mandir)/zh_CN/man1
 zh_CN_man1_DATA = $(MAN1ZHCN)
