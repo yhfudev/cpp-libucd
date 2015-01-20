@@ -1,6 +1,6 @@
 /**
  * @file    ucdet.c
- * @brief   Universal charset detection use the library by Mozilla.
+ * @brief   Universal charset detection use the libucd
  * @author  Yunhui Fu (yhfudev@gmail.com)
  * @version 1.0
  * @license GPL 2.0/LGPL 2.1
@@ -28,7 +28,7 @@
 static void
 version (void)
 {
-    fprintf (stderr, "Universal charset detection use the library by Mozilla.\n");
+    fprintf (stderr, "Universal charset detection use the libucd.\n");
     fprintf (stderr, "Version %d.%d.%d\n", VER_MAJOR, VER_MINOR, VER_MOD);
     fprintf (stderr, "Copyright (c) 2014 Y. Fu. All rights reserved.\n\n");
 }

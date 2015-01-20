@@ -5,7 +5,7 @@ includedir=@includedir@
 
 Name: libucd
 URL: https://github.com/yhfudev/cpp-libucd
-Description: Mozilla's Universal Charset Detector C/C++ API
+Description: Universal Charset Detector C/C++ API
 Version: @PACKAGE_VERSION@
 Requires: 
 Libs: -L${libdir} -lucd

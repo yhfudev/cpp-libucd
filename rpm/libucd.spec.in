@@ -5,9 +5,9 @@
 Name:           libucd
 Version:        %{shortcommit}
 Release:        1
-Summary:        Mozilla's Universal Charset Detector C/C++ API
-Summary(ko):    모질라 유니버샬 캐릭터셋 디텍트 라이브러리
-Summary(zh):    Mozilla 字符集检测 C/C++ API
+Summary:        Universal Charset Detector C/C++ API
+Summary(ko):    유니버샬 캐릭터셋 디텍트 라이브러리
+Summary(zh):    字符集检测 C/C++ API
 License:        GPLv2.0
 URL:            https://github.com/yhfudev/cpp-libucd.git
 
@@ -22,7 +22,7 @@ Prefix:         %{_prefix}
 Docdir:         %{_docdir}
 
 %description
-Standalone universal character set detector C/C++ API by Mozilla.
+Standalone universal character set detector C/C++ API.
 
 %package devel
 Summary:        Development files for %{name}

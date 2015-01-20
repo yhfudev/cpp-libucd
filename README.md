@@ -6,10 +6,15 @@ This library provides a highly accurate set of heuristics that attempt to determ
 the character set used to encode some input text. This is extremely useful when your
 program has to handle an input file which is supplied without any encoding metadata.
 
+
 The original code of libucd was written by Netscape Communications Corporation,
 is available at
-http://lxr.mozilla.org/seamonkey/source/extensions/universalchardet/,
-and now is extended with more languages, utilities and packages supported.
+http://lxr.mozilla.org/seamonkey/source/extensions/universalchardet/, but unfortunately
+the Firefox project removed most of the encoding detecting functions in their latest version.
+While the multi-language detector is widely used in other open source projects. So it's
+urgent to maintain a standalone version of the library that supports most of the language detecting.
+And this project was setup, and now also extended more languages, utilities and packaging.
+
 
 Pulls together:
 

@@ -1,9 +1,9 @@
 # Maintainer: Yunhui Fu <yhfudev at gmail dot com>
 
 pkgname=libucd-git
-pkgver=a1ee2da
+pkgver=553d21c
 pkgrel=1
-pkgdesc="Mozilla's Universal Charset Detector C/C++ API"
+pkgdesc="Universal Charset Detector C/C++ API"
 arch=('i686' 'x86_64' 'arm')
 url="https://github.com/yhfudev/cpp-libucd.git"
 license=('GPL')

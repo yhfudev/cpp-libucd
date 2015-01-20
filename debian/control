@@ -12,7 +12,7 @@ Package: libucd-dev
 Section: libdevel
 Architecture: any
 Depends: libucd (= ${binary:Version})
-Description: Mozilla's Universal Charset Detector C/C++ API
+Description: Universal Charset Detector C/C++ API
  The libucd-dev package contains libraries and header files for
  developing applications that use libucd.
 
@@ -21,5 +21,5 @@ Package: libucd
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Mozilla's Universal Charset Detector C/C++ API
- Standalone universal character set detector C/C++ API by Mozilla.
+Description: Universal Charset Detector C/C++ API
+ Standalone universal character set detector C/C++ API.
