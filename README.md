@@ -14,7 +14,7 @@ and now is extended with more languages, utilities and packages supported.
 Pulls together:
 
   * A command line interface to the library, which also compare the results from
-    alternative libraries, such as libicu.
+    alternative libraries, such as `libicu`.
   * The UCD library itself from the Mozilla seamonkey source tree
   * The extended languages detection from the project https://bitbucket.org/medoc/uchardet-enhanced/
 
@@ -55,17 +55,36 @@ Pulls together:
 
 ## Building
 
-We have a build system based on autoconf/automake, simply do this incantation:
+We have a build system based on `autoconf/automake`, simply do this incantation:
 
     ./configure
     make
 
 It also supports building for Linux distributions, such as RedHat/CentOS, Debian/Ubuntu, Arch Linux etc.
 
+ - RedHat/CentOS
+
+    ./autogen.sh && make rpm
+
+ - Debian/Ubuntu
+
+    ./autogen.sh && debuild -c -uc -us
+
+ - Pacman
+
+    cd pacman && makepkg -Asf
+
+ - Android
+Add a line in your `Android.mk` file in the folder `jni`, for example:
+
+    include jni/libucd/Android.mk
+
+and then run `ndk-build`
+
 
 ## API
 
-See libucd.h or man pages.
+See `libucd.h` or man pages, and `utils/sample.c` for the example.
 
 
 ## Directory contents:
