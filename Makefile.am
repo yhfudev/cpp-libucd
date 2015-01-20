@@ -1,7 +1,7 @@
 SUBDIRS=src pkgconfig utils langstats man
 DISTCLEANFILES =
 
-EXTRA_DIST=autogen.sh autoclean.sh ChangeLog
+EXTRA_DIST=autogen.sh autoclean.sh Android.mk AUTHORS README.md ChangeLog
 
 CLEANFILES = *~ *.bz2 *.tar.gz *.log
 
