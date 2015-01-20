@@ -1,4 +1,4 @@
-%global commit 872e0950ccaced127fe91a49d19ebf6348b083f9
+%global commit 5c92661aeac5b9737ca7a2ea476cd257279c9ff4
 %global shortcommit @VERSION@
 %global shortname @PACKAGE@
 

@@ -2,7 +2,7 @@
 URL_GIT=https://github.com/yhfudev/cpp-libucd.git
 
 # work version for LT_INIT
-VER_GIT=872e0950ccaced127fe91a49d19ebf6348b083f9
+VER_GIT=5c92661aeac5b9737ca7a2ea476cd257279c9ff4
 SHORTCOMMIT=${VER_GIT:0:7}
 
 SHORTNAME=cpp-libucd
