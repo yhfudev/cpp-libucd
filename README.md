@@ -60,22 +60,29 @@ We have a build system based on `autoconf/automake`, simply do this incantation:
     ./configure
     make
 
+
 It also supports building for Linux distributions, such as RedHat/CentOS, Debian/Ubuntu, Arch Linux etc.
 
  - RedHat/CentOS
 
+
     ./autogen.sh
     make rpm
 
+
  - Debian/Ubuntu
+
 
     ./autogen.sh
     debuild -c -uc -us
 
+
  - Pacman
+
 
     cd pacman
     makepkg -Asf
+
 
  - Android
 

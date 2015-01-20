@@ -1,12 +1,14 @@
-SUBDIRS=src pkgconfig utils langstats man
+SUBDIRS=src utils rpm pkgconfig langstats man
 DISTCLEANFILES =
 
 EXTRA_DIST=autogen.sh autoclean.sh Android.mk AUTHORS README.md ChangeLog
 
+EXTRA_DIST += debian/* doc/* pacman/* test/*
+
 CLEANFILES = *~ *.bz2 *.tar.gz *.log
 
 #dist_doc_DATA = LICENSE
-DISTCLEANFILES += *~ *.bz2 *.tar.gz *.log aclocal.m4
+DISTCLEANFILES += *~ *.bz2 *.tar.gz *.log aclocal.m4 test/runtest.fail test/runtest.pass
 
 # define rpm build root
 RPMBUILDTOPDIR = $(shell unset RPMBUILDTOPDIR; if [ -f ${HOME}/.rpmmacros ]; then export RPMBUILDTOPDIR=`grep _topdir ${HOME}/.rpmmacros|awk '{print $$2}'`; else export RPMBUILDTOPDIR=/usr/src/redhat; fi; echo $${RPMBUILDTOPDIR};)

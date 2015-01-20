@@ -145,6 +145,7 @@ AC_OUTPUT(Makefile
 	pkgconfig/Makefile
 	pkgconfig/libucd.pc
 	rpm/libucd.spec
+	rpm/Makefile
 	langstats/Makefile
 	utils/Makefile
 	man/Makefile
