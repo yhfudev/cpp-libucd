@@ -16,11 +16,33 @@
 #include <unicode/ucnv.h>
 #include <unicode/ucnv_err.h>
 #include <unicode/ucsdet.h>
+#endif
 
 //#include "pfall.h"
 //#include "sdict_type.h"
 #include "i18n.h"
 
+int
+chardet (const char *buffer, size_t size, char *result, size_t sz_result)
+{
+    chardet_t det;
+    if (chardet_init (&det) < 0) {
+        return -1;
+    }
+    if (chardet_parse (&det, buffer, size) < 0) {
+        chardet_clear (&det);
+        return -1;
+    }
+    chardet_end (&det);
+    if (chardet_results (&det, result, sz_result) < 0) {
+        chardet_clear (&det);
+        return -1;
+    }
+    chardet_clear (&det);
+    return 0;
+}
+
+#if USE_ICU
 int
 chardet_icu_init (chardet_icu_t * pdet)
 {

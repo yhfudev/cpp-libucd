@@ -27,6 +27,7 @@ autoconf
 make clean
 make ChangeLog
 make dist
+cp lib*-*.tar.gz pacman
 #make
 #make distclean
 
