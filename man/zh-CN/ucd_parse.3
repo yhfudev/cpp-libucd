@@ -14,11 +14,12 @@ ucd_parse \- 输入需要探测的文本数据
 .SH "描述 (DESCRIPTION)"
 输入需要探测的文本数据, 可多次调用，直至数据输入完成。
 
-The
+在调用本API时，
+变量
 .B det
-variable is must initialized by
+必须用
 .BI ucd_init
-API before calling this detect api.
+API 初始化。
 
 .SH "返回值"
 根据情况返回以下值：
@@ -85,7 +86,7 @@ int main (void) {
 Yunhui Fu <https://github.com/yhfudev>
 
 .SH "问题报告"
-Use QnA board on https://github.com/yhfudev
+请在 https://github.com/yhfudev 上面提交问题报告
 
 .SH "参见"
 ucd_init(3), ucd_end(3), ucd_results(3), ucd_clear(3)
