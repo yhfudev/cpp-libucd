@@ -12,16 +12,13 @@
 /*#include <locale.h> // setlocale() */
 #include <stdlib.h>
 
-#ifndef DEBUG
-#define DEBUG 0
-#endif
-
-#if DEBUG
+#ifndef TRACE
 #define TRACE(fmt, ...) fprintf(stderr, fmt, ##__VA_ARGS__)
+//#define TRACE(...)
+#endif
+#ifndef DBGMSG
 #define DBGMSG(catlog, level, fmt, ...) fprintf (stderr, "[%s()]\t" fmt "\t{%d," __FILE__ "}\n", __func__, ##__VA_ARGS__, __LINE__)
-#else
-#define TRACE(...)
-#define DBGMSG(...)
+//#define DBGMSG(...)
 #endif
 
 #ifdef __cplusplus

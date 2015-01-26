@@ -67,8 +67,9 @@ typedef struct {
 } chardet_mod_t;
 
 int
-load_file (chardet_mod_t * mod, void * det, FILE *fp)
+load_file (chardet_mod_t mod[], void * det[], size_t num_det, FILE *fp)
 {
+    size_t i;
     char * buffer = NULL;
     size_t szbuf = 0;
     //off_t pos;
@@ -79,8 +80,10 @@ load_file (chardet_mod_t * mod, void * det, FILE *fp)
         return -1;
     }
     //pos = ftell (fp);
-    while ( getline ( &buffer, &szbuf, fp ) > 0 ) {
-        mod->parse (det, (const char*)buffer, (unsigned int)strlen ((char *)buffer));
+    while ( getline ( &buffer, &szbuf, fp ) >= 0 ) {
+        for (i = 0; i < num_det; i ++) {
+            mod[i].parse (&det[i], (const char*)buffer, (unsigned int)strlen ((char *)buffer));
+        }
         //pos = ftell (fp);
     }
 
@@ -89,12 +92,15 @@ load_file (chardet_mod_t * mod, void * det, FILE *fp)
 }
 
 int
-load_filename (chardet_mod_t * mod, void * det, char * filename)
+load_filename (chardet_mod_t mod[], void * det[], size_t num_det, char * filename)
 {
     FILE *fp = NULL;
     fp = fopen (filename, "r");
+    if (NULL == fp) {
+        return -1;
+    }
 
-    load_file (mod, det, fp);
+    load_file (mod, det, num_det, fp);
 
     fclose (fp);
     return 0;
@@ -171,33 +177,31 @@ main (int argc, char * argv[])
     memset (det, 0, sizeof(det));
     maxmod = 1;
     i = 0;
-    assert (sizeof(void *) >= chardet_funcs[i].bfsize);
+    assert (sizeof(det[i]) >= chardet_funcs[i].bfsize);
     chardet_funcs[i].init (&det[i]);
 #if USE_ICU
     if(1 == flg_useicu) {
         for (i = 1; i < NUM_ARRAY(chardet_funcs); i ++) {
-            assert (sizeof(void *) >= chardet_funcs[i].bfsize);
+            assert (sizeof(det[i]) >= chardet_funcs[i].bfsize);
             chardet_funcs[i].init (&det[i]);
             maxmod ++;
         }
     }
 #endif
 
-    c = optind;
-    if (argc > 1) {
-        for (i = 0; i < maxmod; i ++) {
-            for (j = c; j < argc; j ++) {
-                load_filename (&chardet_funcs[i], &det[i], argv[j]);
+    if (argc > optind) {
+        for (j = optind; j < argc; j ++) {
+            if (load_filename (chardet_funcs, det, maxmod, argv[j]) < 0) {
+                fprintf (stderr, "Error in loading file '%s'.\n", argv[j]);
             }
         }
     } else {
-        for (i = 0; i < maxmod; i ++) {
-            load_file (&chardet_funcs[i], &det[i], stdin);
-        }
+        load_file (chardet_funcs, det, maxmod, stdin);
     }
 
     for (i = 0; i < maxmod; i ++) {
         chardet_funcs[i].end(&det[i]);
+        memset (encname, 0, sizeof(encname));
         if (chardet_funcs[i].results (&det[i], encname, UCD_MAX_ENCODING_NAME) < 0) {
             fprintf (stderr, "Error in detect charset encoding!\n");
         } else {
