@@ -76,8 +76,8 @@ endif
 if USE_ICU
 DEFS+= -DUSE_ICU=1
 #AM_LDFLAGS+=-L/usr/lib/x86_64-linux-gnu/
-#AM_CPPFLAGS += `pkg-config --cflags icu`
-#AM_LDFLAGS+= `pkg-config --libs icu`
+AM_CPPFLAGS += `pkg-config --cflags icu`
+AM_LDFLAGS+= `pkg-config --libs icu`
 AM_CPPFLAGS += `pkg-config --cflags icu-i18n`
 AM_LDFLAGS+= `pkg-config --libs icu-i18n`
 #libseederdict_la_CPPFLAGS += $(LIBICU_CFLAGS)

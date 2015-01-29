@@ -72,6 +72,7 @@ load_file (chardet_mod_t mod[], void * det[], size_t num_det, FILE *fp)
     size_t i;
     char * buffer = NULL;
     size_t szbuf = 0;
+    size_t szret;
     //off_t pos;
 
     szbuf = 10000;
@@ -79,10 +80,12 @@ load_file (chardet_mod_t mod[], void * det[], size_t num_det, FILE *fp)
     if (NULL == buffer) {
         return -1;
     }
+    buffer[0] = 0;
     //pos = ftell (fp);
-    while ( getline ( &buffer, &szbuf, fp ) >= 0 ) {
+    //while ( getline ( &buffer, &szbuf, fp ) >= 0 ) { szret = strlen(buffer);
+    while ((szret = fread (buffer, 1, szbuf, fp)) > 0) {
         for (i = 0; i < num_det; i ++) {
-            mod[i].parse (&det[i], (const char*)buffer, (unsigned int)strlen ((char *)buffer));
+            mod[i].parse (&det[i], (const char*)buffer, szret);
         }
         //pos = ftell (fp);
     }

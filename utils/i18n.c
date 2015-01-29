@@ -43,37 +43,81 @@ chardet (const char *buffer, size_t size, char *result, size_t sz_result)
 }
 
 #if USE_ICU
+typedef struct _icudet_info_t {
+    UCharsetDetector *csd;
+    size_t szbuf;
+    size_t szdata;
+} icudet_info_t;
+
 int
 chardet_icu_init (chardet_icu_t * pdet)
 {
     UErrorCode status = U_ZERO_ERROR;
+    icudet_info_t * pinfo;
     UCharsetDetector *csd;
+    assert (NULL != pdet);
     if (NULL == pdet) {
         return -1;
     }
     csd = ucsdet_open (&status);
-    assert (NULL != pdet);
-    *pdet = (chardet_icu_t)csd;
+    if (U_FAILURE(status)) {
+        return -1;
+    }
+    pinfo = malloc (sizeof(icudet_info_t) + 10000);
+    if (NULL == pinfo) {
+        ucsdet_close (csd);
+        return -1;
+    }
+    memset (pinfo, 0, sizeof (*pinfo));
+    pinfo->szbuf = 10000;
+    pinfo->szdata = 0;
+    pinfo->csd = csd;
+    *pdet = pinfo;
     return 0;
 }
 
 void
 chardet_icu_clear (chardet_icu_t * det)
 {
+    icudet_info_t * pinfo;
     assert (NULL != det);
-    ucsdet_close ((UCharsetDetector *)(*det));
+    pinfo = (icudet_info_t *) (*det);
+    ucsdet_close (pinfo->csd);
+    free (pinfo);
     *det = NULL;
 }
 
 int
 chardet_icu_parse (chardet_icu_t * det, const char* data, size_t len)
 {
-    UErrorCode status = U_ZERO_ERROR;
-    UCharsetDetector *csd = NULL;
-
+    icudet_info_t * pinfo;
     assert (NULL != det);
-    csd = (UCharsetDetector *)(*det);
-    ucsdet_setText (csd, data, len, &status);
+    pinfo = (icudet_info_t *) (*det);
+
+    if (pinfo->szbuf < pinfo->szdata + len) {
+        size_t sznew = pinfo->szbuf * 2 + len;
+        pinfo = realloc (pinfo, sznew);
+        if (NULL == pinfo) {
+            return -1;
+        }
+        pinfo->szbuf = sznew;
+        *det = pinfo;
+    }
+    memmove ((char *)(pinfo + 1) + pinfo->szdata, data, len);
+    pinfo->szdata += len;
+
+    return 0;
+}
+
+int
+chardet_icu_end (chardet_icu_t * det)
+{
+    UErrorCode status = U_ZERO_ERROR;
+    icudet_info_t * pinfo;
+    assert (NULL != det);
+    pinfo = (icudet_info_t *) (*det);
+
+    ucsdet_setText (pinfo->csd, pinfo + 1, pinfo->szdata, &status);
     if (U_FAILURE(status)) {
         return -1;
     }
@@ -81,16 +125,12 @@ chardet_icu_parse (chardet_icu_t * det, const char* data, size_t len)
 }
 
 int
-chardet_icu_end (chardet_icu_t * det)
-{
-    assert (NULL != det);
-    return 0;
-}
-
-int
 chardet_icu_reset (chardet_icu_t * det)
 {
+    icudet_info_t * pinfo;
     assert (NULL != det);
+    pinfo = (icudet_info_t *) (*det);
+    pinfo->szdata = 0;
     return 0;
 }
 
@@ -100,10 +140,21 @@ chardet_icu_results (chardet_icu_t * det, char* namebuf, size_t buflen)
     UErrorCode status = U_ZERO_ERROR;
     const char *name;
     const UCharsetMatch *match;
-    UCharsetDetector *csd;
+    icudet_info_t * pinfo;
     assert (NULL != det);
-    csd = (UCharsetDetector *)(*det);
-    match = ucsdet_detect (csd, &status);
+    pinfo = (icudet_info_t *) (*det);
+
+#if 0
+    int32_t match_count = 0;
+    const UCharsetMatch **matches = ucsdet_detectAll(pinfo->csd, &match_count, &status);
+    if ((NULL == matches) || (match_count < 1)) {
+        return -1;
+    }
+    match = matches[0];
+#else
+    match = ucsdet_detect (pinfo->csd, &status);
+#endif
+
     if (match == NULL) {
         return -1;
     }
