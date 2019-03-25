@@ -71,6 +71,7 @@ protected:
 
 
 extern const SequenceModel Koi8rModel;
+extern const SequenceModel Koi8uModel;
 extern const SequenceModel Win1251Model;
 extern const SequenceModel Latin5Model;
 extern const SequenceModel MacCyrillicModel;
