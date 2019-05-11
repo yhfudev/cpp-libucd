@@ -12,6 +12,9 @@ Steps:
  - Produce character frequency table by running charstats on the chunk, as:
    mkcharstats french/french_cp1252.txt | sort -nr +2 > \
          french/charstats_french_cp1252.txt
+   or (for other versions of sort)
+   mkcharstats french/french_cp1252.txt | sort -nr -k3 > \
+         french/charstats_french_cp1252.txt
 
  - Edit the resulting file, Just get rid of a few lines that break the
    following step (the first one, the last one and the one for space (0x20)
