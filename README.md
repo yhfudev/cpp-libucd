@@ -41,7 +41,7 @@ Pulls together:
   * Traditional and Simplified Chinese: Big5, GB18030, EUC-TW, HZ-GB-2312, ISO-2022-CN 
   * Japanese: EUC-JP, SHIFT_JIS, ISO-2022-JP
   * Korean: EUC-KR, ISO-2022-KR
-  * Cyrillic: KOI8-R, MacCyrillic, IBM855, IBM866, ISO-8859-5, WINDOWS-1251
+  * Cyrillic: KOI8-R, KOI8-U, MacCyrillic, IBM855, IBM866, ISO-8859-5, WINDOWS-1251
   * Hungarian: ISO-8859-2, WINDOWS-1250
   * Bulgarian: ISO-8859-5, WINDOWS-1251
   * English: WINDOWS-1252
