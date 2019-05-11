@@ -32,14 +32,25 @@ import os
 maxrank = 64
 
 def Usage():
-    print "Usage: mkchartoorder.py <charstats file> <text reference file>"
+    print "Usage: mkchartoorder.py [--apostrophe] <charstats file> <text reference file>"
     sys.exit(1)
     
-if len(sys.argv) != 3:
+if len(sys.argv) < 3:
     Usage()
 
-charstats = sys.argv[1]
-reftext = sys.argv[2]
+if sys.argv[1] == "--apostrophe":
+# required for Ukrainian because apostrophe is used as frequently used letter there
+    if len(sys.argv) != 4:
+        Usage()
+    apostrophe_code = 0x27
+    charstats = sys.argv[2]
+    reftext = sys.argv[3]
+else:
+    if len(sys.argv) != 3:
+        Usage()
+    apostrophe_code = -1
+    charstats = sys.argv[1]
+    reftext = sys.argv[2]
 
 # print "Charstats file:", charstats, "Ref text:", reftext
 
@@ -62,7 +73,7 @@ for line in f:
     # Eliminate the common control/punctuation areas. Note that this is only
     # the ascii control / punctuation because the winxxx encodings have
     # lexical characters in the 80-a0 area
-    if bytevalue <= 0x40 or \
+    if (bytevalue <= 0x40 and bytevalue != apostrophe_code) or \
        (bytevalue >= 0x5b and bytevalue <= 0x60) or \
        (bytevalue >= 0x7b and bytevalue <= 0x7f):
         continue
