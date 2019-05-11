@@ -12,11 +12,13 @@
 
 #include "nsHebrewProber.h"
 
+#define KOI8_IDX 1
+
 nsSBCSGroupProber::nsSBCSGroupProber()
 {
   mProbers[0] = new nsSingleByteCharSetProber(&Win1251Model);
-  mProbers[1] = new nsSingleByteCharSetProber(&Koi8rModel);
-  mProbers[2] = new nsSingleByteCharSetProber(&Koi8uModel);
+  mProbers[KOI8_IDX]   = new nsSingleByteCharSetProber(&Koi8rModel); // pay attention to keep index in sync with special case in HandleData
+  mProbers[KOI8_IDX+1] = new nsSingleByteCharSetProber(&Koi8uModel); // in koi8-u vs koi8-r handling
   mProbers[3] = new nsSingleByteCharSetProber(&Latin5Model);
   mProbers[4] = new nsSingleByteCharSetProber(&MacCyrillicModel);
   mProbers[5] = new nsSingleByteCharSetProber(&Ibm866Model);
@@ -113,6 +115,7 @@ nsProbingState nsSBCSGroupProber::HandleData(const char* aBuf, PRUint32 aLen)
   PRUint32 newLen1 = 0;
   char *newBuf2 = 0;
   PRUint32 newLen2 = 0;
+  float bestConf = 0.0, cf;
 
   if (!FilterWithoutEnglishLetters(aBuf, aLen, &newBuf1, newLen1))
     goto done;
@@ -126,6 +129,7 @@ nsProbingState nsSBCSGroupProber::HandleData(const char* aBuf, PRUint32 aLen)
   {
      if (!mIsActive[i])
        continue;
+
      if (mProbers[i]->KeepEnglishLetters()) {
        st = mProbers[i]->HandleData(newBuf2, newLen2);
      } 
@@ -135,9 +139,23 @@ nsProbingState nsSBCSGroupProber::HandleData(const char* aBuf, PRUint32 aLen)
      }
      if (st == eFoundIt)
      {
+       cf = mProbers[i]->GetConfidence();
+       if(i==KOI8_IDX) {
+         // koi8-r vs koi8-u special case, they are very similar
+         bestConf = cf;
+       } else
+       if(i==KOI8_IDX+1) {
+         if(bestConf > cf) {
+           // koi8r is better
+           break;
+         }
+         // seems to be koi8u
+       }
        mBestGuess = i;
        mState = eFoundIt;
-       break;
+       if(i!=KOI8_IDX) {
+         break;
+       }
      }
      else if (st == eNotMe)
      {
@@ -148,6 +166,9 @@ nsProbingState nsSBCSGroupProber::HandleData(const char* aBuf, PRUint32 aLen)
          mState = eNotMe;
          break;
        }
+     } else if(mState == eFoundIt) {
+       // here we can get when koi8r (index=KOI8_IDX) is matched, but koi8u (index=KOI8_IDX+1) is not
+       break;
      }
   }
 
