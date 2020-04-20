@@ -62,40 +62,41 @@ Pulls together:
 
 We have a build system based on `autoconf/automake`, simply do this incantation:
 
-    ./configure
-    make
-
+```
+./configure
+make
+```
 
 It also supports building for Linux distributions, such as RedHat/CentOS, Debian/Ubuntu, Arch Linux etc.
 
  - RedHat/CentOS
 
-
-    ./autogen.sh
-    make rpm
-
+```
+./autogen.sh
+make rpm
+```
 
  - Debian/Ubuntu
 
-
-    ./autogen.sh
-    debuild -c -uc -us
-
+```
+./autogen.sh
+debuild -c -uc -us
+```
 
  - Pacman
 
-
-    cd pacman
-    makepkg -Asf
-
+```
+cd pacman
+makepkg -Asf
+```
 
  - Android
 
 Add a line in your `Android.mk` file in the folder `jni`, for example:
 
-
-    include jni/libucd/Android.mk
-
+```
+include jni/libucd/Android.mk
+```
 
 and then run `ndk-build`
 
