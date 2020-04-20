@@ -5,6 +5,7 @@
  */
 
 #include <stdio.h>
+#include <assert.h>
 #include "prmem.h"
 
 #include "nsSBCharSetProber.h"
@@ -61,6 +62,7 @@ nsSBCSGroupProber::nsSBCSGroupProber()
   mProbers[HEBREW_IDX+10] = new nsSingleByteCharSetProber(&windows_1252spanishModel);
   mProbers[HEBREW_IDX+11] = new nsSingleByteCharSetProber(&iso_8859_2czechModel);
   mProbers[HEBREW_IDX+12] = new nsSingleByteCharSetProber(&iso_8859_2polishModel);
+  assert(HEBREW_IDX+12 < sizeof(mProbers)/sizeof(mProbers[0]));
 
   Reset();
 }
